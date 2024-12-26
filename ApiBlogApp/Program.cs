@@ -1,5 +1,7 @@
 using ApiBlogApp.Data;
 using ApiBlogApp.Mappers;
+using ApiBlogApp.Repository;
+using ApiBlogApp.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // MY SERVICES
 builder.Services.AddAutoMapper(typeof(BlogMapper));
-
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 var app = builder.Build();
 
