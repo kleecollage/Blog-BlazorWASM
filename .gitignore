@@ -1,0 +1,37 @@
+# .NET
+**/bin/
+**/obj/
+**/out/
+# .NET user-specific files
+*.rsuser
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+*.idea/*
+!.idea/inspectionProfiles
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/shelf
+.idea/**/contentModel.xml
+.idea/**/dictionaries
+.idea/**/libraries
+.idea/**/modules.xml
+.idea/**/vcs.xml
+.idea/**/.RiderInspection
+.idea/**/deployment.xml
+
+# Auto-generated files
+*.log
+*.vs/
+# Rider logs and tasks
+.idea/dictionaries/
+.idea/libraries/
+.idea/modules.xml
+.idea/shelf/
+.idea/tasks.xml
+.idea/vcs.xml
