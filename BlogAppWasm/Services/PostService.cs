@@ -87,8 +87,14 @@ public class PostService(HttpClient client) : IPostService
         throw new Exception(errorModel.ErrorMessage);
         }
 
-    public Task<string> UploadImage(MultipartFormDataContent content)
+    public async Task<string> UploadImage(MultipartFormDataContent content)
     {
-        throw new NotImplementedException();
+        var postResult = await client.PostAsync($"{Initializer.UrlBase}/api/upload", content);
+        var postContent = await postResult.Content.ReadAsStringAsync();
+        if (!postResult.IsSuccessStatusCode)
+            throw new ApplicationException(postContent);
+
+        var postImage = Path.Combine($"{Initializer.UrlBase}", postContent);
+        return postImage;
     }
 }

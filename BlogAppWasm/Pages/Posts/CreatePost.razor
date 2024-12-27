@@ -1,4 +1,5 @@
 @page "/create-post"
+@using System.Net.Http.Headers
 
 @inject IPostService PostService
 @inject IJSRuntime JsRuntime
@@ -59,8 +60,15 @@
                     <div class="row">
                         <div class="col-6">
                             <h4>Post Image</h4>
+                            <InputFile OnChange="@OnUploadFile"></InputFile>
+                            <br />
+                            @if (PostImage != null)
+                            {
+                                <div>
+                                    <img src="@PostImage" style="width:300px;" alt="PostImage"/>
+                                </div>
+                            }
                         </div>
-                        @*TODO: Image implementation*@
                     </div>
                 </div>
                 <br />
@@ -87,12 +95,31 @@
 </div>
 @code {
     private Post AddPost { get; set; } = new();
+    [Parameter] public string PostImage { get; set; }
+    [Parameter] public EventCallback<string> OnChange { get; set; }
 
     private async void OnCreatePost()
     {
+        AddPost.PathImage = PostImage;
         var createPost = await PostService.CreatePost(AddPost);
         await JsRuntime.ToastrSuccess("Post Created!"); 
         NavigationManager.NavigateTo("/posts");
     }
-    
+
+    private async Task OnUploadFile(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile != null)
+        {
+            var resizedFile = await imageFile.RequestImageFileAsync("image/png", 1000, 700);
+            using (var ms = resizedFile.OpenReadStream(resizedFile.Size))
+            {
+                var content = new MultipartFormDataContent();
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                content.Add(new StreamContent(ms, Convert.ToInt32(resizedFile.Size)), "image", imageFile.Name);
+                PostImage = await PostService.UploadImage(content);
+                await OnChange.InvokeAsync(PostImage);
+            }
+        }
+    }
 }
