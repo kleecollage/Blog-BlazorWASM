@@ -1,0 +1,88 @@
+@page "/posts"
+
+@using BlogAppWasm.Models
+@using BlogAppWasm.Services.IService
+@inject IPostService PostService
+
+<PageTitle>Posts</PageTitle>
+
+<h1 class="text-center">Posts Page</h1>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-7">
+                <h4 class="card-title text-dark">Posts List</h4>
+            </div>
+            <div class="col-3 offset-2">
+                <NavLink href="create-post" class="btn btn-primary">
+                    <i class="bi bi-plus-circle-fill"></i>&nbsp;Create New Post
+                </NavLink>
+            </div>
+            
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Tags</th>
+                <th>Image</th>
+                <th>Creation Date</th>
+                <th>Last Update</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Posts.Count() > 0)
+            {
+                @foreach (var post in Posts)
+                {
+                    <tr>
+                        <td>@post.Id</td>
+                        <td>@post.Title</td>
+                        <td>@post.Description</td>
+                        <td>@post.Tags</td>
+                        <td>@post.PathImage</td>
+                        <td>@post.CreatedAt</td>
+                        <td>@post.UpdatedAt</td>
+                        <td>
+                            <NavLink href="@($"edit-post/{post.Id}")" class="btn btn-success">
+                                <i class="bi bi-pencil-fill"></i>&nbsp;Edit
+                            </NavLink>
+                            <button class="btn btn-danger" @onclick="() => OnDelete(post.Id)">
+                                <i class="bi bi-trash3-fill"></i>&nbsp;Remove
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="text-center">
+                    <td colspan="7">Bringing the fun...</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        
+    </div>
+</div>
+
+@code {
+    public IEnumerable<Post> Posts { get; set; } = new List<Post>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Posts = await PostService.GetAllPosts();
+    }
+
+    public void OnDelete(int postId)
+    {
+        Console.WriteLine("This method is not implemented jet :(");
+    }
+}
