@@ -5,6 +5,7 @@ using ApiBlogApp.Repository;
 using ApiBlogApp.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -78,6 +79,11 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(c => c.AddPolicy("CorsPolicy", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -86,7 +92,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+// EXPOSE IMAGES DIRECTORY
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"PostsImages")),
+    RequestPath = new PathString("/PostsImages")
+});
+// CORS SUPPORT
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

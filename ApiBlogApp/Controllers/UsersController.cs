@@ -3,6 +3,7 @@ using ApiBlogApp.Models;
 using ApiBlogApp.Models.Dtos;
 using ApiBlogApp.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBlogApp.Controllers;
@@ -66,6 +67,7 @@ public class UsersController(IUserRepository userRepo, IMapper mapper) : Control
     }
 
     // GET: Retrieves all registered users [hots/api/user]
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -84,6 +86,7 @@ public class UsersController(IUserRepository userRepo, IMapper mapper) : Control
     }
     
     // GET: Given its Id, retrieves the user [hots/api/user]
+    [Authorize]
     [HttpGet("{userId:int}" , Name = "GetUserById")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]

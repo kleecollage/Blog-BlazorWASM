@@ -2,6 +2,7 @@ using ApiBlogApp.Models;
 using ApiBlogApp.Models.Dtos;
 using ApiBlogApp.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBlogApp.Controllers;
@@ -11,6 +12,7 @@ namespace ApiBlogApp.Controllers;
 public class PostsController(IPostRepository postRepo, IMapper mapper) : ControllerBase
 {
     // GET: Retrieve all posts [host/api/posts]
+    [AllowAnonymous]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -28,6 +30,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }
     
     // GET: Retrieve a single post by its ID [host/api/posts/{postId}]
+    [AllowAnonymous]
     [HttpGet("{postId:int}", Name = "GetPost")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -45,6 +48,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }    
     
     // POST: Create a new post [host/api/posts]
+    // [Authorize]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -75,6 +79,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }
     
     // PATCH: Partially update an existing post [host/api/posts/{postId}]
+    // [Authorize]
     [HttpPatch("{postId:int}", Name = "UpdatePatchPost")]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -103,6 +108,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }
     
     // DELETE: Remove a post by its ID [host/api/posts/{postId}]
+    // [Authorize]
     [HttpDelete("{postId:int}", Name = "DeletePost")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
