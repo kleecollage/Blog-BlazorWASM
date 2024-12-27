@@ -1,0 +1,98 @@
+@page "/create-post"
+
+@inject IPostService PostService
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+<PageTitle>New Post</PageTitle>
+
+<h1 class="text-center">New Post</h1>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-7">
+                <h4 class="card-title text-dark">Add a New Post!</h4>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <EditForm Model="AddPost" OnValidSubmit="@(() => OnCreatePost())">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div class="container">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Title:</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText @bind-Value="AddPost.Title" class="form-control" placeholder="Enter the title" />
+                            <ValidationMessage For="() => AddPost.Title"/>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Description:</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText @bind-Value="AddPost.Description" class="form-control" placeholder="Enter the post description" />
+                            <ValidationMessage For="() => AddPost.Description" />
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Tags:</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText @bind-Value="AddPost.Tags" class="form-control" placeholder="Enter some tags separated by commas" />
+                            <ValidationMessage For="() => AddPost.Tags" />
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Post Image</h4>
+                        </div>
+                        @*TODO: Image implementation*@
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-floppy2-fill"></i>&nbsp;Save
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <NavLink href="/posts" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left-circle-fill"></i>&nbsp;Go Back
+                            </NavLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+@code {
+    private Post AddPost { get; set; } = new();
+
+    private async void OnCreatePost()
+    {
+        var createPost = await PostService.CreatePost(AddPost);
+        await JsRuntime.ToastrSuccess("Post Created!"); 
+        NavigationManager.NavigateTo("/posts");
+    }
+    
+}
