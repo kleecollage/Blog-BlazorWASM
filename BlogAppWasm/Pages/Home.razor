@@ -1,7 +1,37 @@
 ﻿@page "/"
 
+@inject IJSRuntime JsRuntime
+
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Last Posts</h1>
 
-Welcome to your new app.
+<div class="row mt-4">
+    <div class="col-4">
+        <button class="btn btn-success" @onclick="DemoSuccess">Demo Toastr Success</button>
+        <button class="btn btn-danger" @onclick="DemoFailed">Demo Toastr Failed</button>
+    </div>
+</div>
+
+@code {
+
+    private async Task DemoSuccess()
+    {
+        await JsRuntime.ToastrSuccess("Task Succeed!");
+    }
+
+    private async Task DemoFailed()
+    {
+        await JsRuntime.ToastrError("Task Failed");
+    }
+
+}
+
+
+
+
+
+
+
+
+
