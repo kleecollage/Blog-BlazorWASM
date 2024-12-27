@@ -90,12 +90,6 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         if (postUpdateDto == null || postId != postUpdateDto.Id) return BadRequest(ModelState);
-
-        if (postRepo.PostExists(postUpdateDto.Title))
-        {
-            ModelState.AddModelError("Title", "Post with this title already exists");
-            return StatusCode(404, ModelState);
-        }
         
         var post = mapper.Map<Post>(postUpdateDto);
         if (!postRepo.UpdatePost(post))
