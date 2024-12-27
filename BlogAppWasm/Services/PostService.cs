@@ -60,7 +60,7 @@ public class PostService(HttpClient client) : IPostService
     {
         var content = JsonConvert.SerializeObject(post);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync($"{Initializer.UrlBase}/api/posts/{postId}", bodyContent);
+        var response = await client.PatchAsync($"{Initializer.UrlBase}/api/posts/{postId}", bodyContent);
         
         if (response.IsSuccessStatusCode)
         {

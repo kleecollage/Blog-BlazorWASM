@@ -1,9 +1,10 @@
 @page "/create-post"
-@using System.Net.Http.Headers
 
+@using System.Net.Http.Headers
 @inject IPostService PostService
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
+
 <PageTitle>New Post</PageTitle>
 
 <h1 class="text-center">New Post</h1>
@@ -26,42 +27,44 @@
                             <label>Title:</label>
                         </div>
                         <div class="col-6">
-                            <InputText @bind-Value="AddPost.Title" class="form-control" placeholder="Enter the title" />
+                            <InputText @bind-Value="AddPost.Title" class="form-control" placeholder="Enter the title"/>
                             <ValidationMessage For="() => AddPost.Title"/>
                         </div>
                     </div>
                 </div>
-                <br />
+                <br/>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-2">
                             <label>Description:</label>
                         </div>
                         <div class="col-6">
-                            <InputText @bind-Value="AddPost.Description" class="form-control" placeholder="Enter the post description" />
-                            <ValidationMessage For="() => AddPost.Description" />
+                            <InputText @bind-Value="AddPost.Description" class="form-control"
+                                       placeholder="Enter the post description"/>
+                            <ValidationMessage For="() => AddPost.Description"/>
                         </div>
                     </div>
                 </div>
-                <br />
+                <br/>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-2">
                             <label>Tags:</label>
                         </div>
                         <div class="col-6">
-                            <InputText @bind-Value="AddPost.Tags" class="form-control" placeholder="Enter some tags separated by commas" />
-                            <ValidationMessage For="() => AddPost.Tags" />
+                            <InputText @bind-Value="AddPost.Tags" class="form-control"
+                                       placeholder="Enter some tags separated by commas"/>
+                            <ValidationMessage For="() => AddPost.Tags"/>
                         </div>
                     </div>
                 </div>
-                <br />
+                <br/>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-6">
                             <h4>Post Image</h4>
                             <InputFile OnChange="@OnUploadFile"></InputFile>
-                            <br />
+                            <br/>
                             @if (PostImage != null)
                             {
                                 <div>
@@ -71,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <br />
+                <br/>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-2">
@@ -93,6 +96,7 @@
 
     </div>
 </div>
+
 @code {
     private Post AddPost { get; set; } = new();
     [Parameter] public string PostImage { get; set; }
@@ -101,8 +105,8 @@
     private async void OnCreatePost()
     {
         AddPost.PathImage = PostImage;
-        var createPost = await PostService.CreatePost(AddPost);
-        await JsRuntime.ToastrSuccess("Post Created!"); 
+        await PostService.CreatePost(AddPost);
+        await JsRuntime.ToastrSuccess("Post Created!");
         NavigationManager.NavigateTo("/posts");
     }
 
@@ -122,4 +126,5 @@
             }
         }
     }
+
 }
