@@ -11,5 +11,10 @@ public class BlogMapper: Profile
         CreateMap<Post, PostDto>().ReverseMap();
         CreateMap<Post, PostCreateDto>().ReverseMap();
         CreateMap<Post, PostUpdateDto>().ReverseMap();
+        
+        CreateMap<User, UserDto>().ReverseMap();
+        CreateMap<User, UserLoginDto>().ReverseMap();
+        CreateMap<User, UserLoginResponseDto>().ReverseMap();
+        CreateMap<User, UserRegisterDto>().ReverseMap();
     }
 }

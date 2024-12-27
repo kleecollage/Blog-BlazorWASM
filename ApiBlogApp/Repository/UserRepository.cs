@@ -10,21 +10,29 @@ using XSystem.Security.Cryptography;
 
 namespace ApiBlogApp.Repository;
 
-public class UserRepository(ApplicationDbContext context, string secretWord): IUserRepository
+public class UserRepository: IUserRepository
 {
+    private readonly ApplicationDbContext _context;
+    private readonly string _secretWord;
+
+    public UserRepository(ApplicationDbContext context, IConfiguration config)
+    {
+        _context = context;
+        _secretWord = config.GetValue<string>("ApiSettings:Secret");;
+    }
     public ICollection<User> GetAllUsers()
     {
-        return context.Users.OrderBy(u => u.Id).ToList();
+        return _context.Users.OrderBy(u => u.Id).ToList();
     }
 
     public User GetUserById(int id)
     {
-        return context.Users.FirstOrDefault(u => u.Id == id);
+        return _context.Users.FirstOrDefault(u => u.Id == id);
     }
 
     public bool IsUniqueUser(string username)
     {
-        var userDb = context.Users.FirstOrDefault(u => u.Username == username);
+        var userDb = _context.Users.FirstOrDefault(u => u.Username == username);
         if (userDb == null) return true;
 
         return false;
@@ -33,7 +41,7 @@ public class UserRepository(ApplicationDbContext context, string secretWord): IU
     public async Task<UserLoginResponseDto> Login(UserLoginDto userLoginDto)
     {
         var passwordEncrypted = ObtainMd5(userLoginDto.Password);
-        var user = context.Users.FirstOrDefault(
+        var user = _context.Users.FirstOrDefault(
             u => u.Username.ToLower() == userLoginDto.Username.ToLower()
             && u.Password == passwordEncrypted
         );
@@ -48,7 +56,7 @@ public class UserRepository(ApplicationDbContext context, string secretWord): IU
         }
         // USER LOGIN OK
         var handlerToken = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(secretWord);
+        var key = Encoding.ASCII.GetBytes(_secretWord);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
@@ -82,9 +90,9 @@ public class UserRepository(ApplicationDbContext context, string secretWord): IU
             Password = passwordEncypted,
         };
         
-        context.Users.Add(user);
+        _context.Users.Add(user);
         user.Password = passwordEncypted;
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         
         return user;
     }
