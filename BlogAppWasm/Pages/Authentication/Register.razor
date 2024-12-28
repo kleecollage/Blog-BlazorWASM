@@ -1,0 +1,67 @@
+@page "/register"
+
+<EditForm Model="UserToRegister" OnValidSubmit="RegisterUser" class="pt-4">
+    <DataAnnotationsValidator />
+    <div class="py-4">
+        <div class=" row form-group ">
+            <div class="col-6 offset-3 ">
+                <div class="card border">
+                    <div class="card-body px-lg-5 pt-4">
+                        <h3 class="col-12 text-success text-center py-2">
+                            <strong>Register</strong>
+                        </h3>
+
+                        @if (RegisterErrors)
+                        {
+                            <div>
+                                @foreach (var error in Errors)
+                                {
+                                    <p class="text-danger text-center">@error</p>
+                                }
+                            </div>
+                        }
+
+                        <hr style="background-color:aliceblue" />
+                        <div class="py-2">
+                            <InputText @bind-Value="UserToRegister.Name" class="form-control" placeholder="Name..." />
+                            <ValidationMessage For="(()=>UserToRegister.Name)" />
+
+                        </div>
+                        <div class="py-2">
+                            <InputText @bind-Value="UserToRegister.Email" class="form-control" placeholder="Email..." />
+                            <ValidationMessage For="(()=>UserToRegister.Email)" />
+
+                        </div>
+                        <div class="py-2 input-group">
+                            <InputText @bind-Value="UserToRegister.Username" class="form-control" placeholder="Username..." />
+                            <ValidationMessage For="(()=>UserToRegister.Username)" />
+
+                        </div>
+                        <div class="form-row py-2">
+                            <div class="col">
+                                <InputText @bind-Value="UserToRegister.Password" type="password" id="password" placeholder="Password..." class="form-control" />
+                                <ValidationMessage For="(()=>UserToRegister.Password)" />
+                            </div>
+
+                        </div>
+                        <hr style="background-color:aliceblue" />
+                        <div class="py-2">
+                            @if (OnProcess)
+                            {
+                                <button type="submit" class="btn btn-success btn-block disabled"><i class="fas fa-sign-in-alt"></i> Please wait ...</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-success btn-block"><i class="fas fa-sign-in-alt"></i>Register</button>
+                            }
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</EditForm>

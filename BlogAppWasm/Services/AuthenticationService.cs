@@ -40,7 +40,7 @@ public class AuthenticationService(
         if (response.IsSuccessStatusCode)
         {
             var token = result["result"]["token"].Value<string>();
-            var user = result["result"]["user"].Value<string>();
+            var user = result["result"]["user"]["username"].Value<string>();
             await localStorage.SetItemAsync(Initializer.LocalToken, token);
             await localStorage.SetItemAsync(Initializer.DataLocalUser, user);
             ((AuthStateProvider)authenticationStateProvider).NotifyUserLogged(token);

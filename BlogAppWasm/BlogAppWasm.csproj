@@ -15,8 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Pages\Authentication\" />
       <Folder Include="wwwroot\img\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
     </ItemGroup>
 
 </Project>
