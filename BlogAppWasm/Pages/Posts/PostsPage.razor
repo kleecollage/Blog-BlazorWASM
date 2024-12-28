@@ -1,8 +1,9 @@
 @page "/posts"
 
 @inject IPostService PostService
-@inject IJSRuntime JsRuntime 
-
+@inject IJSRuntime JsRuntime
+@attribute [Authorize]
+    
 <PageTitle>Posts</PageTitle>
 
 <h1 class="text-center">Posts Page</h1>
