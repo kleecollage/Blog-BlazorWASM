@@ -48,7 +48,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }    
     
     // POST: Create a new post [host/api/posts]
-    // [Authorize]
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -79,7 +79,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }
     
     // PATCH: Partially update an existing post [host/api/posts/{postId}]
-    // [Authorize]
+    [Authorize]
     [HttpPatch("{postId:int}", Name = "UpdatePatchPost")]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -102,7 +102,7 @@ public class PostsController(IPostRepository postRepo, IMapper mapper) : Control
     }
     
     // DELETE: Remove a post by its ID [host/api/posts/{postId}]
-    // [Authorize]
+    [Authorize]
     [HttpDelete("{postId:int}", Name = "DeletePost")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
