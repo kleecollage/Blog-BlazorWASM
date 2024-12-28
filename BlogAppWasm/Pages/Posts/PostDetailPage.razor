@@ -1,0 +1,29 @@
+@page "/detail-post/{Id:int}"
+
+@inject IPostService PostService;
+
+<PageTitle>Detail</PageTitle>
+
+<h1>@Post.Title</h1>
+<div class="col-8 offset-2">
+    <img src="@Post.PathImage" alt="ImagePost" class="img-fluid">
+</div>
+<h4>@Post.Description</h4>
+<h5><strong>Tags: </strong>@Post.Tags</h5>
+<p><strong>Creation Date: </strong>@Post.CreatedAt</p>
+<p><strong>Last Update: </strong>@Post.UpdatedAt</p>
+<NavLink href="/" class="btn btn-secondary">
+    <i class="bi bi-arrow-left-short">&nbsp;Go Back</i>
+</NavLink>
+
+@code {
+    private Post Post { get; set; } = new Post();
+    
+    [Parameter] public int? Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Post = await PostService.GetPostById(Id.Value);
+    }
+
+}

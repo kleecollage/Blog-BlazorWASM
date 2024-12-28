@@ -19,7 +19,7 @@ public class AuthenticationService(
     {
         var content = JsonConvert.SerializeObject(userToRegister);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync($"{Initializer.UrlBase}api/users/register", bodyContent);
+        var response = await client.PostAsync($"{Initializer.UrlBase}/api/users/register", bodyContent);
         var contentTemp = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<RegisterResponse>(contentTemp);
 
@@ -33,7 +33,7 @@ public class AuthenticationService(
     {
         var content = JsonConvert.SerializeObject(userFromAuthentication);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync($"{Initializer.UrlBase}api/users/login", bodyContent);
+        var response = await client.PostAsync($"{Initializer.UrlBase}/api/users/login", bodyContent);
         var contentTemp = await response.Content.ReadAsStringAsync();
         var result = (JObject)JsonConvert.DeserializeObject(contentTemp);
 
