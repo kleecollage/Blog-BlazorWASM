@@ -4,4 +4,5 @@ public static class Initializer
 {
     public const string UrlBase = "http://localhost:5102";
     public const string LocalToken = "JWT Token";
+    public const string DataLocalUser = "Detail User";
 }

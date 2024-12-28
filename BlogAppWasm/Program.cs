@@ -13,7 +13,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 // MY SERVICES
 builder.Services.AddScoped<IPostService, PostService>();
-// LOCALSTORAGE
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+// LOCAL STORAGE
 builder.Services.AddBlazoredLocalStorage();
 // AUTHENTICATION AND AUTHORIZATION
 builder.Services.AddAuthorizationCore();

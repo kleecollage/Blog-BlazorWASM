@@ -20,4 +20,21 @@ public class AuthStateProvider(HttpClient client, ILocalStorageService localStor
             new ClaimsPrincipal(new ClaimsIdentity(
                 JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
     }
+
+    public void NotifyUserLogged(string token)
+    {
+        var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(
+            JwtParser.ParseClaimsFromJwt(token), "jwtAuthType"));
+        
+        var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
+        
+        NotifyAuthenticationStateChanged(authState);
+    }
+
+    public void NotifyUserLogOut()
+    {
+        var authState = Task.FromResult(new AuthenticationState(
+            new ClaimsPrincipal(new ClaimsIdentity())));
+        NotifyAuthenticationStateChanged(authState);
+    }
 }
