@@ -5,6 +5,7 @@ using BlogAppWasm;
 using BlogAppWasm.Services;
 using BlogAppWasm.Services.IService;
 using Microsoft.AspNetCore.Components.Authorization;
+using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -14,6 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 // MY SERVICES
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddRadzenComponents();
 // LOCAL STORAGE
 builder.Services.AddBlazoredLocalStorage();
 // AUTHENTICATION AND AUTHORIZATION

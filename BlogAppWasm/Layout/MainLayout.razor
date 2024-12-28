@@ -1,5 +1,10 @@
 ﻿@inherits LayoutComponentBase
-  <!-- Navbar --> 
+<HeadContent>
+  <RadzenTheme Theme="material" />
+</HeadContent>
+<NavMenu/>
+<RadzenComponents />
+<!-- Navbar --> 
   <!-- Background image -->
   <div
     class="p-5 text-center bg-image img-header"
@@ -19,9 +24,8 @@
     </div>
   </div>
   <!-- Background image -->
-<NavMenu/>
-<div class="container"> 
+  <div class="container">
     <div class="main">
-        @Body
+      @Body
     </div>
-</div>
+  </div>
