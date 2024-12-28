@@ -79,7 +79,7 @@ public class PostService(HttpClient client) : IPostService
 
     public async Task<bool> DeletePost(int postId)
     {
-        var response = await client.GetAsync($"{Initializer.UrlBase}/api/posts/{postId}");
+        var response = await client.DeleteAsync($"{Initializer.UrlBase}/api/posts/{postId}");
         if (response.IsSuccessStatusCode) return true;
         
         var content = await response.Content.ReadAsStringAsync();

@@ -1,0 +1,51 @@
+<!-- Modal -->
+<div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Are you sure you want to delete?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        @onclick="() => OnConfirmChange(false)">
+                </button>
+            </div>
+            <div class="modal-body">
+                Once the record is deleted it cannot be recovered.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => OnConfirmChange(false)">Cancel</button>
+
+                @if (ProcessInit)
+                {
+                    <button type="button" class="btn btn-danger">
+                        <i class="bi bi-hourglass-split"></i>&nbsp;Deleting ...
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-danger" @onclick="() => OnConfirmChange(true)">
+                        <i class="bi bi-trash-fill"></i>&nbsp;Delete
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public EventCallback<bool> ConfirmChange { get; set; }
+    [Parameter] public bool ProcessParentComponent { get; set; }
+    public bool ProcessInit { get; set; } = false;
+
+    protected override void OnParametersSet()
+    {
+        ProcessInit = ProcessParentComponent;
+    }
+
+    protected async Task OnConfirmChange(bool value)
+    {
+        if (value) ProcessInit = true; 
+        
+        await ConfirmChange.InvokeAsync(value);
+    }
+}

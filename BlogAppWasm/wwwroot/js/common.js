@@ -28,6 +28,6 @@ function ShowModal() {
     $('#showModal').modal('show');
 }
 
-function hideModal() {
-    $('#hideModal').modal('hide');
+function HideModal() {
+    $('#showModal').modal('hide');
 }

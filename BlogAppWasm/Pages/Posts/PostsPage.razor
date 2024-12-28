@@ -1,6 +1,7 @@
 @page "/posts"
 
 @inject IPostService PostService
+@inject IJSRuntime JsRuntime 
 
 <PageTitle>Posts</PageTitle>
 
@@ -70,17 +71,48 @@
         
     </div>
 </div>
+<ConfirmDelete ProcessParentComponent="OnProcess" ConfirmChange="ConfirmDelete"/>
 
 @code {
     public IEnumerable<Post> Posts { get; set; } = new List<Post>();
-
+    private bool OnProcess { get; set; } = false;
+    private int? DeletePostId { get; set; } = null;
+    
     protected override async Task OnInitializedAsync()
     {
         Posts = await PostService.GetAllPosts();
     }
 
-    public void OnDelete(int postId)
+    public async Task OnDelete(int postId)
     {
-        Console.WriteLine("This method is not implemented jet :(");
+        DeletePostId = postId;
+        await JsRuntime.InvokeVoidAsync("ShowModal");
+    }
+
+    public async Task ConfirmDelete(bool confirm)
+    {
+        OnProcess = true;
+        if (confirm && DeletePostId != null)
+        { 
+            await PostService.DeletePost(DeletePostId.Value);
+            await JsRuntime.ToastrSuccess("Post Deleted!");
+            Posts = await PostService.GetAllPosts();
+        }
+        OnProcess = false;
+        await JsRuntime.InvokeVoidAsync("HideModal");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
